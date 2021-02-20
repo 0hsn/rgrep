@@ -11,8 +11,8 @@ fn main() {
         show_usage_and_exit();
     }
 
-    let filename = args[1].trim().to_string();
-    let pattern = args[2].trim().to_string();
+    let pattern = args[1].trim().to_string();
+    let filename = args[2].trim().to_string();
 
     if filename.is_empty() || pattern.is_empty() {
         show_usage_and_exit();
@@ -25,7 +25,7 @@ fn main() {
 }
 
 fn show_usage_and_exit() {
-    eprintln!("Usage: rgerp [FILE] [pattern]");
+    eprintln!("Usage: rgerp [pattern] [FILE]");
     exit(1);
 }
 
