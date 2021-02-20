@@ -6,7 +6,10 @@ This tool is tested with the [works of Shakespeare](https://ocw.mit.edu/ans7870/
 
 Usage:
 ```bash
-rgerp [FILE] [pattern]
+rgerp [pattern] [FILE]
 ```
-where `pattern` is a string, can be multiple words. Regular expression based 
+where 
+- `pattern` is a string, can be multiple words. Regular expression based 
 pattern not supported.
+
+- `FILE` is a valid file name in your system. 
