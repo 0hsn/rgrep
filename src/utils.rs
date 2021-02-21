@@ -1,8 +1,7 @@
 use std::fs::File;
-use std::{io, env};
-use std::io::BufRead;
+use std::io::{self, BufRead};
 use std::path::Path;
-use std::process;
+use std::collections::HashMap;
 
 pub fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
 where
@@ -22,24 +21,27 @@ pub fn display_lines_when_match(lines: &mut io::Lines<io::BufReader<File>>, patt
     }
 }
 
-pub fn get_env_args() -> (&'static str, &'static str) {
-    let show_usage_and_exit = || {
-        eprintln!("Usage: rgerp [pattern] [FILE]");
-        process::exit(1);
-    };
-
-    let args: Vec<String> = env::args().collect();
+pub fn get_env_args() -> io::Result<HashMap<String, String>> {
+    let args: Vec<String> = std::env::args().collect();
 
     if args.len() < 3 {
-        show_usage_and_exit();
+        Err(io::Error::new(io::ErrorKind::InvalidInput, "Invalid number of arguments."))
+    } else {
+        let pattern = &args[1][..];
+        let filename = &args[2][..];
+
+        if filename.is_empty() {
+            Err(io::Error::new(io::ErrorKind::InvalidData, "Invalid filename."))
+        } else if pattern.is_empty() {
+            Err(io::Error::new(io::ErrorKind::InvalidData, "Invalid pattern."))
+        } else {
+            let mut result: HashMap<String, String> = HashMap::new();
+
+            result.insert("filename".to_string(), filename.to_string());
+            result.insert("pattern".to_string(), pattern.to_string());
+
+            Ok(result)
+        }
     }
 
-    let pattern = args[1].trim();
-    let filename = args[2].trim();
-
-    if filename.is_empty() || pattern.is_empty() {
-        show_usage_and_exit();
-    }
-
-    return (pattern, filename);
 }
