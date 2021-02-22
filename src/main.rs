@@ -1,9 +1,9 @@
-mod tests;
 mod utils;
+mod tests;
 
 fn main() {
-    let show_usage_and_exit = |e| {
-        eprintln!("{:?}\nUsage: rgerp [pattern] [FILE]", e);
+    let show_usage_and_exit = |msg: &str| {
+        eprintln!("{}\nUsage: rgerp [pattern] [FILE]", msg);
         std::process::exit(1);
     };
 
@@ -17,6 +17,6 @@ fn main() {
 
             std::process::exit(0);
         },
-        Err(e) => show_usage_and_exit(e),
+        Err(e) => show_usage_and_exit(&e.to_string()),
     };
 }
