@@ -32,6 +32,8 @@ pub fn get_env_args() -> io::Result<HashMap<String, String>> {
 
         if filename.is_empty() {
             Err(io::Error::new(io::ErrorKind::InvalidData, "Invalid filename."))
+        } else if !Path::new(filename).exists() {
+            Err(io::Error::new(io::ErrorKind::NotFound, "File don't exists."))
         } else if pattern.is_empty() {
             Err(io::Error::new(io::ErrorKind::InvalidData, "Invalid pattern."))
         } else {
